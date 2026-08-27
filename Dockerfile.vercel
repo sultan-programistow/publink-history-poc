@@ -1,0 +1,27 @@
+# syntax=docker/dockerfile:1
+# Stage 1: build frontend (Node) -> will be copied to wwwroot
+FROM node:20-alpine AS frontend-build
+WORKDIR /src/frontend
+COPY frontend/package.json frontend/package-lock.json* ./
+RUN npm install
+COPY frontend/ ./
+RUN npm run build
+
+# Stage 2: build backend
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS backend-build
+WORKDIR /src
+COPY backend/Api.csproj ./backend/
+RUN dotnet restore backend/Api.csproj
+COPY backend/ ./backend/
+COPY --from=frontend-build /src/frontend/dist ./backend/wwwroot/
+RUN dotnet publish backend/Api.csproj -c Release --no-restore -o /app/publish /p:UseAppHost=false
+
+# Stage 3: runtime (chiseled, non-root app user)
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble-chiseled
+WORKDIR /app
+COPY --from=backend-build /app/publish ./
+# Vercel routes to $PORT (default 80), image default is 8080 — make explicit.
+# Using 8080 avoids privileged-port issues with non-root user.
+ENV PORT=8080 DOTNET_EnableDiagnostics=0 ASPNETCORE_FORWARDEDHEADERS_ENABLED=true
+EXPOSE 8080
+ENTRYPOINT ["dotnet", "Api.dll"]

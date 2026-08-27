@@ -1,0 +1,19 @@
+# dumps / local data
+AuditLog_*.json
+AuditLog_*.txt
+AuditLog_latest*.json
+Document_*.json
+Document_*.txt
+Entity_*.json
+Entity_*.txt
+tables.txt
+EntityTypes.txt
+.connectionStrings
+.env
+*.log
+
+# build
+frontend/node_modules
+frontend/dist
+backend/bin
+backend/obj

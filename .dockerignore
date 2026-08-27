@@ -1,0 +1,10 @@
+.git
+node_modules
+frontend/node_modules
+frontend/dist
+backend/bin
+backend/obj
+*.md
+AuditLog_*.json
+Document_*.json
+Entity_*.json
