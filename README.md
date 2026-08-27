@@ -16,9 +16,9 @@ Prereqs: Node 20, .NET SDK 10, Docker, Vercel CLI `npm i -g vercel`.
 
 ```bash
 # 1. env
-cp .env.example .env   # paste readonly ConnectionStrings__Default
+cp .env.example .env   # paste readonly DATABASE_CONNECTION_STRING (auto-loaded via DotNetEnv)
 # also:
-export ConnectionStrings__Default="Server=tcp:sql-common-publink-dev..."
+export DATABASE_CONNECTION_STRING="Server=tcp:sql-common-publink-dev..."
 
 # 2a. split dev (hot reload)
 cd frontend && npm install && npm run dev   # 5173 proxies /api to 8080
@@ -26,13 +26,13 @@ cd frontend && npm install && npm run dev   # 5173 proxies /api to 8080
 dotnet run --project backend --urls http://localhost:8080
 
 # 2b. single-container local (like prod)
-docker build -f Dockerfile.vercel -t hist:local . && docker run -p 3000:8080 -e ConnectionStrings__Default="$ConnectionStrings__Default" -e PORT=8080 hist:local
+docker build -f Dockerfile.vercel -t hist:local . && docker run -p 3000:8080 -e DATABASE_CONNECTION_STRING="$DATABASE_CONNECTION_STRING" -e PORT=8080 hist:local
 curl http://localhost:3000/health
 curl "http://localhost:3000/api/documents/f2191c6c-8623-4962-a11d-dcbe0f168b21/history?includeChildren=true"
 
 # via Vercel CLI (uses Container Registry)
 vercel login
-vercel env add ConnectionStrings__Default  # paste value, add to Production + Preview
+vercel env add DATABASE_CONNECTION_STRING  # paste value, add to Production + Preview
 vercel dev -L   # http://localhost:3000
 vercel deploy --prod
 ```

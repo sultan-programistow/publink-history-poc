@@ -26,13 +26,16 @@ app.UseStaticFiles();
 app.MapGet("/health", () => Results.Json(new { status = "ok", port }));
 app.MapGet("/api/health", () => Results.Json(new { status = "ok", port, db = HasConnectionString() ? "configured" : "missing" }));
 
-bool HasConnectionString() => !string.IsNullOrWhiteSpace(app.Configuration.GetConnectionString("Default") ?? Environment.GetEnvironmentVariable("ConnectionStrings__Default"));
+bool HasConnectionString() => !string.IsNullOrWhiteSpace(
+    Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING")
+    ?? app.Configuration.GetConnectionString("Default")
+    ?? app.Configuration["DATABASE_CONNECTION_STRING"]);
 
 string GetConnectionString()
 {
-    var cs = app.Configuration.GetConnectionString("Default")
-          ?? Environment.GetEnvironmentVariable("ConnectionStrings__Default")
-          ?? Environment.GetEnvironmentVariable("ConnectionString")
+    var cs = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING")
+          ?? app.Configuration.GetConnectionString("Default")
+          ?? app.Configuration["DATABASE_CONNECTION_STRING"]
           ?? "";
     return cs;
 }
@@ -41,7 +44,7 @@ string GetConnectionString()
 app.MapGet("/api/documents/{id:guid}", async (Guid id) =>
 {
     var cs = GetConnectionString();
-    if (string.IsNullOrWhiteSpace(cs)) return Results.Json(new { error = "ConnectionString missing. Set ConnectionStrings__Default env var." }, statusCode: 500);
+    if (string.IsNullOrWhiteSpace(cs)) return Results.Json(new { error = "ConnectionString missing. Set DATABASE_CONNECTION_STRING env var." }, statusCode: 500);
     try
     {
         using var conn = new SqlConnection(cs);
@@ -56,7 +59,7 @@ app.MapGet("/api/documents/{id:guid}", async (Guid id) =>
 app.MapGet("/api/documents/{id:guid}/history", async (Guid id, bool? includeChildren) =>
 {
     var cs = GetConnectionString();
-    if (string.IsNullOrWhiteSpace(cs)) return Results.Json(new { error = "ConnectionString missing. Set ConnectionStrings__Default env var (or .env)." }, statusCode: 500);
+    if (string.IsNullOrWhiteSpace(cs)) return Results.Json(new { error = "ConnectionString missing. Set DATABASE_CONNECTION_STRING env var (or .env)." }, statusCode: 500);
     var include = includeChildren ?? true;
     try
     {
