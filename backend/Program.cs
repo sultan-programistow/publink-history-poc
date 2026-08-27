@@ -1,6 +1,12 @@
 using System.Data;
+using System.Collections;
 using Dapper;
 using Microsoft.Data.SqlClient;
+
+// Load .env for local dev (repo root .env, backend/.env) — ignored by git via .gitignore
+try { DotNetEnv.Env.TraversePath().Load(); } catch { }
+try { DotNetEnv.Env.Load(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", ".env")); } catch { }
+try { DotNetEnv.Env.Load(); } catch { }
 
 var builder = WebApplication.CreateSlimBuilder(args);
 
@@ -50,7 +56,7 @@ app.MapGet("/api/documents/{id:guid}", async (Guid id) =>
 app.MapGet("/api/documents/{id:guid}/history", async (Guid id, bool? includeChildren) =>
 {
     var cs = GetConnectionString();
-    if (string.IsNullOrWhiteSpace(cs)) return Results.Json(new { error = "ConnectionString missing. Set ConnectionStrings__Default env var." }, statusCode: 500);
+    if (string.IsNullOrWhiteSpace(cs)) return Results.Json(new { error = "ConnectionString missing. Set ConnectionStrings__Default env var (or .env)." }, statusCode: 500);
     var include = includeChildren ?? true;
     try
     {
