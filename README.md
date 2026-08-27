@@ -23,7 +23,7 @@ export DATABASE_CONNECTION_STRING="Server=tcp:sql-common-publink-dev..."
 # 2a. split dev (hot reload)
 cd frontend && npm install && npm run dev   # 5173 proxies /api to 8080
 # in another terminal:
-dotnet run --project backend --urls http://localhost:8080
+dotnet watch --project backend --urls http://localhost:8080
 
 # 2b. single-container local (like prod)
 docker build -f Dockerfile.vercel -t hist:local . && docker run -p 3000:8080 -e DATABASE_CONNECTION_STRING="$DATABASE_CONNECTION_STRING" -e PORT=8080 hist:local
