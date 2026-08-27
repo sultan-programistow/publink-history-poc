@@ -16,8 +16,8 @@ COPY backend/ ./backend/
 COPY --from=frontend-build /src/frontend/dist ./backend/wwwroot/
 RUN dotnet publish backend/Api.csproj -c Release --no-restore -o /app/publish /p:UseAppHost=false
 
-# Stage 3: runtime (chiseled, non-root app user)
-FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble-chiseled
+# Stage 3: runtime — use non-chiseled to include ICU libs (required when InvariantGlobalization=false)
+FROM mcr.microsoft.com/dotnet/aspnet:10.0
 WORKDIR /app
 COPY --from=backend-build /app/publish ./
 # Vercel routes to $PORT (default 80), image default is 8080 — make explicit.
