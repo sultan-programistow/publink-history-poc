@@ -52,7 +52,7 @@ https://support.atlassian.com/rovo/docs/accessing-chat/. Nie podjąłem się zai
 # Trzy decyzje (jeszcze raz)
 
 Nie podjąłem decyzji **uzasadnionych wartością dla skarbnika lub biznesu** - bo nie "czułem" ani
-Skarbnika ani biznesu. Natomiast podjąłem następujące decyzje, których zadanie w sumie nie wymuszało:
+Skarbnika ani biznesu. Natomiast podjąłem następującą decyzję, której zadanie w sumie nie wymuszało:
 
 * dodałem informację o najstarszym auditlogu w bazie danych (na dole strony). Jakoś tak podejrzewam, że te logi
 są rotacyjnie czyszczone co kilka lat, i może to być istotna informacja dla urzędnika, że pełnego 4-letniego okresu nie 
