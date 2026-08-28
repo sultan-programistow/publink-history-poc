@@ -18,3 +18,7 @@ frontend/dist
 backend/bin
 backend/obj
 .vercel
+frontend/tsconfig.tsbuildinfo
+frontend/tsconfig.node.tsbuildinfo
+.idea/
+.env.local
