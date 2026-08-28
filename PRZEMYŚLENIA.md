@@ -72,9 +72,9 @@ uprawnień
 * analytika (typu urzędnik kliknął w expand/collapse)
 
 Wszystkie te rzeczy odpuściłem głównie ze względu na to, że
-a) czas
+a) czas  
 b) bardzo mocno nie jestem pewien sensowności tego co robię - bez dostępu do realnych danych
-(użytkownik! analityki! produkt! reszta zespołu!) ciężko mi dodawać kolejne mini-funkcje wiedząć,
+(użytkownik! analityki! produkt! reszta zespołu!) ciężko mi dodawać kolejne mini-funkcje wiedząc,
 że na 99% nie takie będą przydatne wyimaginowanemu użytkownikowi
 
 # Pytania?
