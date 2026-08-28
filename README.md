@@ -1,5 +1,7 @@
 # Document History PoC — ASP.NET Core 10 + React on single Vercel Container
 
+## 🚀 Live Demo → https://publink-history-poc.vercel.app
+
 **Single-platform, single-env** — frontend and API run in one Docker image on Vercel (Fluid Functions, scales to zero).
 
 * **Backend**: `backend/` — .NET 10 Minimal API (`CreateSlimBuilder`, binds `0.0.0.0:$PORT`), Dapper + `Microsoft.Data.SqlClient` against `sqldb-umowy-dev`. Endpoints:
