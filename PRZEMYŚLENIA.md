@@ -79,4 +79,4 @@ b) bardzo mocno nie jestem pewien sensowności tego co robię - bez dostępu do 
 
 # Pytania?
 
-Chętnie doprecyzuję jesli coś nie jest jasne. Adres znacie?
+Chętnie doprecyzuję jesli coś nie jest jasne.
